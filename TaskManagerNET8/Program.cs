@@ -2,6 +2,8 @@ using Blazored.SessionStorage;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerNET8.Components;
 using TaskManagerNET8.Models.Database.Project;
+using TaskManagerNET8.Models.Services;
+using TaskManagerNET8.Models.Services.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +34,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-//builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 

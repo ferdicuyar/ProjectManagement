@@ -22,5 +22,5 @@ public partial class SubTask
 
     [ForeignKey("TaskId")]
     [InverseProperty("SubTasks")]
-    public virtual Task Task { get; set; } = null!;
+    public virtual TheTask Task { get; set; } = null!;
 }

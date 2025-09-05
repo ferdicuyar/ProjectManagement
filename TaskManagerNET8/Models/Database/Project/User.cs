@@ -19,6 +19,7 @@ public partial class User
     public string Password { get; set; } = null!;
 
     public string LongName { get; set; } = null!;
+    public bool Deleted { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<ProjectNote> ProjectNotes { get; set; } = new List<ProjectNote>();
@@ -27,5 +28,5 @@ public partial class User
     public virtual ICollection<TaskNote> TaskNotes { get; set; } = new List<TaskNote>();
 
     [InverseProperty("TaskUser")]
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public virtual ICollection<TheTask> Tasks { get; set; } = new List<TheTask>();
 }

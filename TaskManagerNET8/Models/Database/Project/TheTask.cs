@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaskManagerNET8.Models.Database.Project;
 
-[Table("Task")]
-public partial class Task
+[Table("TheTask")]
+public partial class TheTask
 {
     [Key]
     public int Id { get; set; }

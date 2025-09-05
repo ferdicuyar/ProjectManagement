@@ -1,7 +1,116 @@
 ﻿@page "/"
+@inject ILoginService service
+@inject NavigationManager nav;
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+@code {
+    User TheUser = new();
+    string mesage = "";
+    SessionModel theLogger = null;
+    async Task LoginCheck()
+    {
+        theLogger = await service.Login(TheUser);
+        if (theLogger == null || theLogger.TheUser == null)
+        {
+            mesage = "Authorization is refused.";
+            TheUser = new ();
+        }
+        else
+        {
+            if (theLogger.Message == "success")
+            {
+                nav.NavigateTo("/System/MainPage/" + theLogger.TheUser.Id);
+            }
+        }
+    }
+}
 
-<h1>Hello, world!</h1>
+<style>
+    .main {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #C9FFD0;
+    }
 
-Welcome to your new app.
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #191919;
+        padding: 40px;
+        border-radius: 20px;
+        color: white;
+    }
+
+        .content h1 {
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .content h3 {
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+    .loginTextbox {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #3498db;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+    }
+
+        .loginTextbox:focus {
+            width: 280px;
+            border-color: #2ecc71;
+        }
+
+    input[type="submit"] {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #2ecc71;
+        padding: 14px 40px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+        cursor: pointer;
+    }
+
+        input[type="submit"]:hover {
+            background: #2ecc71;
+        }
+</style>
+<div class="main">
+    <div class="content">
+        <div class="login">
+            <EditForm Model="TheUser" OnValidSubmit="LoginCheck">
+                <div class="box">
+                    <h1 class="text-center">Project Management Application</h1>
+                    <h3 class="text-center">Login Page</h3>
+                    <InputText @bind-Value="TheUser.UserName" placeholder="User Name" class="loginTextbox" />
+                    <InputText @bind-Value="TheUser.Password" placeholder="Password" type="password" class="loginTextbox" />
+                    <input type="submit" value="Login" />
+                    @if (mesage.Length > 0)
+                    {
+                        <br />
+                        <p class="bg-danger">@mesage</p>
+                    }
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

@@ -27,5 +27,5 @@ public partial class TaskNote
 
     [ForeignKey("TaskId")]
     [InverseProperty("TaskNotes")]
-    public virtual Task Task { get; set; } = null!;
+    public virtual TheTask Task { get; set; } = null!;
 }

@@ -21,7 +21,7 @@ public partial class ProjectContext : DbContext
 
     public virtual DbSet<SubTask> SubTasks { get; set; }
 
-    public virtual DbSet<Task> Tasks { get; set; }
+    public virtual DbSet<TheTask> Tasks { get; set; }
 
     public virtual DbSet<TaskNote> TaskNotes { get; set; }
 
@@ -67,7 +67,7 @@ public partial class ProjectContext : DbContext
                 .HasConstraintName("FK_SubTask_Task");
         });
 
-        modelBuilder.Entity<Task>(entity =>
+        modelBuilder.Entity<TheTask>(entity =>
         {
             entity.HasOne(d => d.Project).WithMany(p => p.Tasks).HasConstraintName("FK_Task_Project");
 
