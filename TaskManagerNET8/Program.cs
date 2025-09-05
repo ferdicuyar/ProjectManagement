@@ -1,5 +1,7 @@
 using Blazored.SessionStorage;
+using Microsoft.EntityFrameworkCore;
 using TaskManagerNET8.Components;
+using TaskManagerNET8.Models.Database.Project;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,7 @@ builder.Services.AddServerSideBlazor()
     });
 
 builder.Services.AddBlazoredSessionStorage();
-//builder.Services.AddDbContext<ProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProjeContext")));
+builder.Services.AddDbContext<ProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProjeContext")));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 

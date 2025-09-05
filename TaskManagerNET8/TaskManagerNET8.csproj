@@ -25,4 +25,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Helpers\LoginHelpers\" />
+    <Folder Include="Models\Services\Abstract\" />
+  </ItemGroup>
+
 </Project>
