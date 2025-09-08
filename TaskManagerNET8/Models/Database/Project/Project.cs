@@ -29,6 +29,10 @@ public partial class Project
 
     public bool Finished { get; set; }
 
+    [ForeignKey("OwnerId")]
+    [InverseProperty("Projects")]
+    public virtual User Owner { get; set; } = null!;
+
     [InverseProperty("Project")]
     public virtual ICollection<ProjectCost> ProjectCosts { get; set; } = new List<ProjectCost>();
 
@@ -39,5 +43,8 @@ public partial class Project
     public virtual ICollection<ProjectTechnology> ProjectTechnologies { get; set; } = new List<ProjectTechnology>();
 
     [InverseProperty("Project")]
-    public virtual ICollection<TheTask> Tasks { get; set; } = new List<TheTask>();
+    public virtual ICollection<ProjectUser> ProjectUsers { get; set; } = new List<ProjectUser>();
+
+    [InverseProperty("Project")]
+    public virtual ICollection<TheTask> TheTasks { get; set; } = new List<TheTask>();
 }

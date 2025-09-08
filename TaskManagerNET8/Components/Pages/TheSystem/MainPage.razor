@@ -1,0 +1,81 @@
+﻿@page "/TheSystem/MainPage/{userId:int}"
+@inject ISessionStorageService session
+@inject NavigationManager nav;
+@inject IProjectService projectService;
+@rendermode InteractiveServer
+
+@code {
+    [Parameter]
+    public int userId { get; set; }
+    SessionModel mySession;
+    List<Project> ongoings;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(300);
+            mySession = await session.GetItemAsync<SessionModel>("login");
+            if (mySession?.TheUser?.UserName == null)
+            {
+                nav.NavigateTo("/");
+                return;
+            }
+            else if (mySession.TheUser.Id != userId)
+            {
+                nav.NavigateTo("/");
+                return;
+            }
+            else
+            {
+                ongoings = projectService.DedicatedOngoingProjects(userId);
+            }
+            StateHasChanged();
+        }
+    }
+}
+
+<TopNav/>
+
+<TwoPane>
+    <Main>
+            <div class="row">
+            <div class="col-12 table-responsive">
+                @if (ongoings != null)
+                {
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">Deadline</th>
+                                <th scope="col">Tasks (finish/sum)</th>
+                                <th scope="col">Project Manager</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Project item in ongoings)
+                            {
+                                <tr>
+                                    <td class="col--primary" data-label="Project Name">@item.ProjectTitle</td>
+                                    <td class="col--secondary" data-label="Description">@item.ProjectDescription</td>
+                                    <td class="col--secondary" data-label="Start Date">@item.CreateDate.ToString("yyyy.MM.dd")</td>
+                                    <td class="col--secondary" data-label="Deadline">@item.Deadline?.ToString("yyyy.MM.dd")</td>
+                                    <td class="col--optional" data-label="Tasks (finish/sum)">@item.ProjectTitle</td>
+                                    <td class="col--optional" data-label="Project Manager">@item.ProjectTitle</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                }
+            </div>
+        </div>
+
+    </Main>
+
+    <Sidebar>
+        <MiniCalendar /> 
+    </Sidebar>
+</TwoPane>

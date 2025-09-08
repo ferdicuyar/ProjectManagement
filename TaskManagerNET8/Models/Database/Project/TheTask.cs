@@ -34,7 +34,7 @@ public partial class TheTask
     public string? LastNote { get; set; }
 
     [ForeignKey("ProjectId")]
-    [InverseProperty("Tasks")]
+    [InverseProperty("TheTasks")]
     public virtual Project? Project { get; set; }
 
     [InverseProperty("Task")]
@@ -44,6 +44,9 @@ public partial class TheTask
     public virtual ICollection<TaskNote> TaskNotes { get; set; } = new List<TaskNote>();
 
     [ForeignKey("TaskUserId")]
-    [InverseProperty("Tasks")]
+    [InverseProperty("TheTasks")]
     public virtual User TaskUser { get; set; } = null!;
+
+    [InverseProperty("TheTask")]
+    public virtual ICollection<UserTheTask> UserTheTasks { get; set; } = new List<UserTheTask>();
 }

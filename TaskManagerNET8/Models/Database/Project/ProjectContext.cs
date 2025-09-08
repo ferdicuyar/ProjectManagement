@@ -19,18 +19,29 @@ public partial class ProjectContext : DbContext
 
     public virtual DbSet<ProjectTechnology> ProjectTechnologies { get; set; }
 
-    public virtual DbSet<SubTask> SubTasks { get; set; }
+    public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
 
-    public virtual DbSet<TheTask> Tasks { get; set; }
+    public virtual DbSet<SubTask> SubTasks { get; set; }
 
     public virtual DbSet<TaskNote> TaskNotes { get; set; }
 
     public virtual DbSet<Technology> Technologies { get; set; }
 
+    public virtual DbSet<TheTask> TheTasks { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserTheTask> UserTheTasks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Project>(entity =>
+        {
+            entity.HasOne(d => d.Owner).WithMany(p => p.Projects)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Project_User");
+        });
+
         modelBuilder.Entity<ProjectCost>(entity =>
         {
             entity.HasOne(d => d.Project).WithMany(p => p.ProjectCosts)
@@ -60,20 +71,26 @@ public partial class ProjectContext : DbContext
                 .HasConstraintName("FK_ProjectTechnology_Technology");
         });
 
+        modelBuilder.Entity<ProjectUser>(entity =>
+        {
+            entity.HasOne(d => d.Project).WithMany(p => p.ProjectUsers)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProjectUser_Project");
+
+            entity.HasOne(d => d.User).WithMany(p => p.ProjectUsers)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProjectUser_User");
+        });
+
         modelBuilder.Entity<SubTask>(entity =>
         {
             entity.HasOne(d => d.Task).WithMany(p => p.SubTasks)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SubTask_Task");
-        });
 
-        modelBuilder.Entity<TheTask>(entity =>
-        {
-            entity.HasOne(d => d.Project).WithMany(p => p.Tasks).HasConstraintName("FK_Task_Project");
-
-            entity.HasOne(d => d.TaskUser).WithMany(p => p.Tasks)
+            entity.HasOne(d => d.User).WithMany(p => p.SubTasks)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Task_User");
+                .HasConstraintName("FK_SubTask_User");
         });
 
         modelBuilder.Entity<TaskNote>(entity =>
@@ -85,6 +102,28 @@ public partial class ProjectContext : DbContext
             entity.HasOne(d => d.Task).WithMany(p => p.TaskNotes)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TaskNote_Task");
+        });
+
+        modelBuilder.Entity<TheTask>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Task");
+
+            entity.HasOne(d => d.Project).WithMany(p => p.TheTasks).HasConstraintName("FK_Task_Project");
+
+            entity.HasOne(d => d.TaskUser).WithMany(p => p.TheTasks)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Task_User");
+        });
+
+        modelBuilder.Entity<UserTheTask>(entity =>
+        {
+            entity.HasOne(d => d.TheTask).WithMany(p => p.UserTheTasks)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UserTheTask_TheTask");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserTheTasks)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UserTheTask_User");
         });
 
         OnModelCreatingPartial(modelBuilder);

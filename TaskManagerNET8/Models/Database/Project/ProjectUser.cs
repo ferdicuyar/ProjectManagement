@@ -6,27 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaskManagerNET8.Models.Database.Project;
 
-[Table("SubTask")]
-public partial class SubTask
+[Table("ProjectUser")]
+public partial class ProjectUser
 {
     [Key]
     public int Id { get; set; }
 
-    public string Title { get; set; } = null!;
-
-    public string? Description { get; set; }
-
-    public bool Executed { get; set; }
-
-    public int TaskId { get; set; }
+    public int ProjectId { get; set; }
 
     public int UserId { get; set; }
 
-    [ForeignKey("TaskId")]
-    [InverseProperty("SubTasks")]
-    public virtual TheTask Task { get; set; } = null!;
+    [ForeignKey("ProjectId")]
+    [InverseProperty("ProjectUsers")]
+    public virtual Project Project { get; set; } = null!;
 
     [ForeignKey("UserId")]
-    [InverseProperty("SubTasks")]
+    [InverseProperty("ProjectUsers")]
     public virtual User User { get; set; } = null!;
 }

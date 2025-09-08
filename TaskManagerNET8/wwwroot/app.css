@@ -27,3 +27,64 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+.two-pane {
+    display: grid;
+    gap: 16px
+}
+
+.mobile-bar {
+    display: none
+}
+
+.content {
+    min-width: 0
+}
+
+@media (min-width:1024px) {
+    .two-pane {
+        grid-template-columns: 1fr 320px;
+        align-items: start
+    }
+
+    .mobile-bar {
+        display: none
+    }
+
+    .sidebar {
+        display: block;
+        position: sticky;
+        top: 64px;
+        max-height: calc(100svh - 80px);
+        overflow: auto;
+    }
+}
+
+@media (max-width:1023.98px) {
+    .two-pane {
+        display: block
+    }
+
+    .mobile-bar {
+        display: flex;
+        justify-content: flex-end;
+        margin: 8px 0
+    }
+
+    .toggle {
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid #d7e7ef;
+        background: #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .sidebar {
+        display: none;
+        margin-top: 8px
+    }
+
+    .two-pane.is-open .sidebar {
+        display: block
+    }
+}

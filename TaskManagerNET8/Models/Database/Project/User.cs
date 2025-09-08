@@ -19,14 +19,27 @@ public partial class User
     public string Password { get; set; } = null!;
 
     public string LongName { get; set; } = null!;
+
     public bool Deleted { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<ProjectNote> ProjectNotes { get; set; } = new List<ProjectNote>();
 
+    [InverseProperty("User")]
+    public virtual ICollection<ProjectUser> ProjectUsers { get; set; } = new List<ProjectUser>();
+
+    [InverseProperty("Owner")]
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<SubTask> SubTasks { get; set; } = new List<SubTask>();
+
     [InverseProperty("Owner")]
     public virtual ICollection<TaskNote> TaskNotes { get; set; } = new List<TaskNote>();
 
     [InverseProperty("TaskUser")]
-    public virtual ICollection<TheTask> Tasks { get; set; } = new List<TheTask>();
+    public virtual ICollection<TheTask> TheTasks { get; set; } = new List<TheTask>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<UserTheTask> UserTheTasks { get; set; } = new List<UserTheTask>();
 }
