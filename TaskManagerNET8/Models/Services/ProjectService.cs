@@ -11,6 +11,25 @@ namespace TaskManagerNET8.Models.Services
         {
             db = _db;
         }
+
+        public List<Technology> AddTechs(Technology newTech)
+        {
+            if (newTech.Id == null || (newTech.Id != null && newTech.Id == 0))
+            {
+                db.Technologies.Add(newTech);
+            }
+            else
+            {
+                db.Technologies.Update(newTech);
+            }
+            db.SaveChanges();
+            return GetTechs();
+        }
+
+        public List<Technology> GetTechs()
+        {
+            return db.Technologies.ToList();
+        }
         public List<ProjectDto> DedicatedOngoingProjects(int userId)
         {
             List<ProjectUser> dedicatedData=db.ProjectUsers.Where(x=>x.UserId== userId).ToList();
@@ -22,5 +41,6 @@ namespace TaskManagerNET8.Models.Services
             List<ProjectDto> data = projects.Select(x => new ProjectDto(x, users.Where(u => projectUsers.Where(p => p.ProjectId == x.Id).GroupBy(up => up.UserId).Select(up => up.Key).Contains(u.Id)).ToList())).ToList();
             return data;
         }
+
     }
 }
