@@ -8,5 +8,7 @@ namespace TaskManagerNET8.Models.Services.Abstract
         void Logout();
         Task<SessionModel> Login(User data);
         Task<SessionModel> UserUpdate(User data);
+        List<User> GetUsers();
+        List<User> AddUser(User user, string password);
     }
 }

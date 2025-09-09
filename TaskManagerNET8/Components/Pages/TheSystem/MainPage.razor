@@ -8,7 +8,7 @@
     [Parameter]
     public int userId { get; set; }
     SessionModel mySession;
-    List<Project> ongoings;
+    List<ProjectDto> ongoings;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -34,7 +34,7 @@
     }
 }
 
-<TopNav/>
+<TopNav UserId="@userId"/>
 
 <TwoPane>
     <Main>
@@ -55,7 +55,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Project item in ongoings)
+                            @foreach (ProjectDto item in ongoings)
                             {
                                 <tr>
                                     <td class="col--primary" data-label="Project Name">@item.ProjectTitle</td>
@@ -63,7 +63,7 @@
                                     <td class="col--secondary" data-label="Start Date">@item.CreateDate.ToString("yyyy.MM.dd")</td>
                                     <td class="col--secondary" data-label="Deadline">@item.Deadline?.ToString("yyyy.MM.dd")</td>
                                     <td class="col--optional" data-label="Tasks (finish/sum)">@item.ProjectTitle</td>
-                                    <td class="col--optional" data-label="Project Manager">@item.ProjectTitle</td>
+                                    <td class="col--optional" data-label="Project Manager">@item.Owner</td>
                                 </tr>
                             }
                         </tbody>

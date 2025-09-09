@@ -58,6 +58,28 @@ namespace TaskManagerNET8.Models.Services
         }
 
 
+        public List<User> AddUser(User user,string password)
+        {
+            if (!string.IsNullOrEmpty(password))
+            {
+                user.Password = Salter(password);
+            }
+            if (user.Id == null || (user.Id != null && user.Id == 0))
+            {
+                db.Users.Add(user);
+            }
+            else
+            {
+                db.Users.Update(user);
+            }
+            db.SaveChanges();
+            return GetUsers();
+        }
+
+        public List<User> GetUsers()
+        {
+            return db.Users.ToList();
+        }
 
         string Salter(string veri)
         {

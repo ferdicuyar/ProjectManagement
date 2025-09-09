@@ -1,9 +1,10 @@
 ﻿using TaskManagerNET8.Models.Database.Project;
+using TaskManagerNET8.Models.Helpers.ReportHelpers;
 
 namespace TaskManagerNET8.Models.Services.Abstract
 {
     public interface IProjectService
     {
-        List<Project> DedicatedOngoingProjects(int userId);
+        List<ProjectDto> DedicatedOngoingProjects(int userId);
     }
 }

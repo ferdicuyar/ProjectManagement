@@ -1,4 +1,7 @@
-﻿
+﻿@code{
+    [Parameter]
+    public int UserId { get; set; }
+}
 <link href="/layout.css" rel="stylesheet" />
 
 <header class="topbar">
@@ -9,10 +12,11 @@
 
     <nav class="nav">
         <ul class="nav-links">
-            <li><a href="#">Ongoing Projects</a></li>
+            <li><a href="/TheSystem/MainPage/@UserId">Ongoing Projects</a></li>
             <li><a href="#">Finished Projects</a></li>
             <li><a href="#">New Project</a></li>
             <li><a href="#">Technology</a></li>
+            <li><a href="/TheSystem/Users">Users</a></li>
         </ul>
     </nav>
 </header>
